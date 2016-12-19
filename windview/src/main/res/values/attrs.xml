@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WindView">
+        <attr name="windSpeed" format="float" />
+        <attr name="pressure" format="float" />
+        <attr name="numericFontSize" format="dimension" />
+        <attr name="barometerTickSpacing" format="dimension" />
+        <attr name="labelFontSize" format="dimension" />
+        <attr name="windTextX" format="dimension" />
+        <attr name="windTextY" format="dimension" />
+        <attr name="pressureTextX" format="dimension" />
+        <attr name="pressureTextY" format="dimension" />
+        <attr name="pressureLineY" format="dimension" />
+        <attr name="bigPoleX" format="dimension" />
+        <attr name="smallPoleX" format="dimension" />
+        <attr name="poleBottomY" format="dimension" />
+        <attr name="aspectRatio" format="float" />
+    </declare-styleable>
+</resources>
