@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/WindView.iml" filepath="$PROJECT_DIR$/WindView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WindView.iml" filepath="$PROJECT_DIR$/WindView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/windview/windview.iml" filepath="$PROJECT_DIR$/windview/windview.iml" />
       <module fileurl="file://$PROJECT_DIR$/windview/windview.iml" filepath="$PROJECT_DIR$/windview/windview.iml" />
     </modules>
   </component>
