@@ -15,6 +15,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -168,6 +169,7 @@ public class WindView extends View {
                 curSize = lineSize;
             }
             initPath(canvas);
+            drawPressure(canvas);
         }
     }
 
@@ -187,6 +189,27 @@ public class WindView extends View {
                 paint.setTextSize((float) labelFontSize);
                 canvas.drawText(windName, width + (((float) (windSpeedText.length() * numericFontSize)) / 2.0f), (float) (windTextY + numericFontSize), paint);
             }
+        }
+    }
+    private void drawPressure(Canvas canvas) {
+        float f = curSize + ((float) pressureTextY);
+        int width = (getWidth() - 14) - scale;
+        paint.setTextSize((float) labelFontSize);
+        float measureText = (float) (width - ((int) paint.measureText(barometerText)));
+        f += (float) labelFontSize;
+        canvas.drawText(barometerText, measureText, f, paint);
+        if (trendBitmap != null) {
+            canvas.drawBitmap(trendBitmap, (measureText - ((float) trendBitmap.getWidth())) - 4.0f, f - ((float) (labelFontSize / 2)), paint);
+        }
+        if (!TextUtils.isEmpty(pressureUnit)) {
+            paint.setTextSize((float) labelFontSize);
+            measureText = (float) (width - ((int) paint.measureText(pressureUnit)));
+            f += (float) numericFontSize;
+            canvas.drawText(pressureUnit, measureText, f, paint);
+        }
+        if (!TextUtils.isEmpty(pressureText)) {
+            paint.setTextSize((float) numericFontSize);
+            canvas.drawText(pressureText, measureText - (((float) (((int) paint.measureText(pressureText)) + 4)) + ((float) ((int) paint.measureText(" ")))), f, paint);
         }
     }
 
