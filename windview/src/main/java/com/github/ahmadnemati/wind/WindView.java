@@ -163,8 +163,7 @@ public class WindView extends View {
             matrix.postTranslate((float) (width - (smallBladeBitmap.getWidth() / 2)), (float) (height2 - (smallBladeBitmap.getHeight() / 2)));
             canvas.drawBitmap(smallBladeBitmap, matrix, paint);
             drawWind(canvas);
-
-
+            drawBarometer(canvas);
         }
     }
 
@@ -210,17 +209,29 @@ public class WindView extends View {
         rotation %= 360.0f;
     }
 
-    private boolean stringValid(String str) {
-        return str == null || str.trim().length() == 0 || str.trim().equalsIgnoreCase("null");
-    }
-
     public Typeface getTypeface() {
         return typeface;
+    }
+
+    private void drawBarometer(Canvas canvas) {
+        paint.setStrokeWidth(2.0f);
+        paint.setColor(1073741823);
+        paint.setStyle(Paint.Style.FILL);
+        int width = getWidth();
+        float f = pressurePaddingTop;
+        for (int i = 0; i < 10; i++) {
+            canvas.drawLine((float) (((double) width) - toPixel(5d)), f, (float) width, f, paint);
+            f = (float) (((double) f) + (lineSpace + ((double) barometerTickSpacing)));
+        }
+        paint.setColor(primaryTextColor);
     }
 
     public void setTypeface(Typeface typeface) {
         this.typeface = typeface;
         paint.setTypeface(typeface);
+    }
+    private boolean stringValid(String str) {
+        return str == null || str.trim().length() == 0 || str.trim().equalsIgnoreCase("null");
     }
 
     private double toPixel(double d) {
