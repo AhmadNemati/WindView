@@ -89,8 +89,8 @@ public class WindView extends View {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(attrs);
     }
-    private void init(AttributeSet attrs)
-    {
+
+    private void init(AttributeSet attrs) {
         TypedArray obtainStyledAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.WindView);
         pressure = obtainStyledAttributes.getFloat(R.styleable.WindView_pressure, -1.0f);
         windTextX = obtainStyledAttributes.getDimensionPixelSize(R.styleable.WindView_windTextX, 242);
@@ -107,8 +107,7 @@ public class WindView extends View {
         setupView();
     }
 
-    private void setupView()
-    {
+    private void setupView() {
         Resources resources = getContext().getResources();
         primaryTextColor = resources.getColor(R.color.text_color);
         paint = new Paint();
@@ -129,17 +128,67 @@ public class WindView extends View {
         pathEffect = new DashPathEffect(new float[]{4f, 4f}, 0f);
     }
 
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        initCanvas(canvas);
+
     }
 
+    private void initCanvas(Canvas canvas) {
+        boolean enable = false;
+        if (bigPoleBitmap != null && smallBladeBitmap != null && bigBladeBitmap != null) {
+            paint.setColor(primaryTextColor);
+            canvas.drawBitmap(bigPoleBitmap, bigPoleX, (poleBottomY - bigPoleBitmap.getHeight()), paint);
+            canvas.drawBitmap(smallPoleBitmap, smallPoleX, (poleBottomY - smallPoleBitmap.getHeight()), paint);
+            if (animationEnable) {
+                startTimes();
+            }
+            int width = bigPoleX + (bigPoleBitmap.getWidth() / 2);
+            int height = (poleBottomY - bigPoleBitmap.getHeight()) - 4;
+            rect.left = width - (bigBladeBitmap.getWidth() / 2);
+            rect.top = height - (bigBladeBitmap.getHeight() / 2);
+            rect.bottom = (bigBladeBitmap.getHeight() / 2) + height;
+            matrix.reset();
+            matrix.setRotate(rotation, ((float) bigBladeBitmap.getWidth()) / 2.0f, (bigBladeBitmap.getHeight()) / 2.0f);
+            matrix.postTranslate((float) (width - (bigBladeBitmap.getWidth() / 2)), (height - (bigBladeBitmap.getHeight() / 2)));
+            canvas.drawBitmap(bigBladeBitmap, matrix, paint);
+            width = smallPoleX + (smallPoleBitmap.getWidth() / 2);
+            int height2 = (poleBottomY - smallPoleBitmap.getHeight()) - 4;
+            rect.right = (smallBladeBitmap.getWidth() / 2) + width;
+            rect.bottom = Math.max(rect.bottom, height + (smallBladeBitmap.getHeight() / 2));
+            matrix.reset();
+            matrix.setRotate(rotation, ((float) smallBladeBitmap.getWidth()) / 2.0f, ((float) smallBladeBitmap.getHeight()) / 2.0f);
+            matrix.postTranslate((float) (width - (smallBladeBitmap.getWidth() / 2)), (float) (height2 - (smallBladeBitmap.getHeight() / 2)));
+            canvas.drawBitmap(smallBladeBitmap, matrix, paint);
+
+        }
+    }
+
+
+
+
     public void start() {
-        this.animationEnable = true;
+        animationEnable = true;
         invalidate();
     }
+
+    public void stop() {
+        animationEnable = false;
+    }
+
+
     private int getScale(int i) {
         return (int) ((getContext().getResources().getDisplayMetrics().density * ((float) i)) + 0.5f);
+    }
+
+    private void startTimes() {
+        long nanoTime = System.nanoTime();
+        float f = ((float) (nanoTime - startTime)) / 1000000.0f;
+        startTime = nanoTime;
+        rotation = ((float) ((Math.sqrt((double) windSpeed) * ((double) f)) / 20.0d)) + rotation;
+        rotation %= 360.0f;
     }
 
     public Typeface getTypeface() {
@@ -150,6 +199,7 @@ public class WindView extends View {
         this.typeface = typeface;
         paint.setTypeface(typeface);
     }
+
     private double toPixel(double d) {
         return (getContext().getResources().getDisplayMetrics().density) * d;
     }
