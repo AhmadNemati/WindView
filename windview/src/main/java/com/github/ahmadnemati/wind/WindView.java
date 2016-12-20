@@ -164,6 +164,10 @@ public class WindView extends View {
             canvas.drawBitmap(smallBladeBitmap, matrix, paint);
             drawWind(canvas);
             drawBarometer(canvas);
+            if (!animationEnable) {
+                curSize = lineSize;
+            }
+            initPath(canvas);
         }
     }
 
@@ -223,6 +227,25 @@ public class WindView extends View {
             canvas.drawLine((float) (((double) width) - toPixel(5d)), f, (float) width, f, paint);
             f = (float) (((double) f) + (lineSpace + ((double) barometerTickSpacing)));
         }
+        paint.setColor(primaryTextColor);
+    }
+
+    private void initPath(Canvas canvas) {
+        paint.setColor(1073741823);
+        paint.setStrokeWidth(1.0f);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setPathEffect(pathEffect);
+        float width = (float) getWidth();
+        if (path == null) {
+            path = new Path();
+        } else {
+            path.reset();
+        }
+        path.moveTo(10.0f, curSize);
+        path.quadTo(width / 2.0f, curSize, width - 20.0f, curSize);
+        canvas.drawPath(path, paint);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setPathEffect(null);
         paint.setColor(primaryTextColor);
     }
 
