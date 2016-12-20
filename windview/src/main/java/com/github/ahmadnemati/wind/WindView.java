@@ -1,8 +1,18 @@
 package com.github.ahmadnemati.wind;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.DashPathEffect;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PathEffect;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
@@ -13,18 +23,52 @@ import android.view.View;
  */
 
 public class WindView extends View {
-    private int pressureTextY;
-    private int labelFontSize;
-    private int numericFontSize;
-    private float barometerTickSpacing;
+    private static final String TAG = WindView.class.getSimpleName();
+    private Rect rect = new Rect();
+    private Path path;
+    private Matrix matrix;
+    private Paint paint;
+    private int primaryTextColor;
+    private String WindDirectionText;
+    private long startTime = 0;
+    private PathEffect pathEffect;
+    private Bitmap smallPoleBitmap;
+    private Bitmap bigPoleBitmap;
+    private Bitmap smallBladeBitmap;
+    private Bitmap bigBladeBitmap;
+    private Bitmap trendBitmap;
+    private Bitmap barometerBitmap;
+    private float rotation;
     private int bigPoleX;
     private int smallPoleX;
+    private String windText = "Wind";
+    private String windName;
+    private String windSpeedText;
+    private String barometerText = "Barometer";
     private int poleBottomY;
     private int windTextX;
     private int windTextY;
-    private float pressure;
+    private float windSpeed;
+    private String windSpeedUnit;
+    private boolean animationEnable = true;
+    private boolean animationBaroMeterEnable = false;
+    private float pressurePaddingTop;
+    private double senterOfPressureLine;
+    private double pressureLineSize;
     private int scale;
-    private boolean animationEnable = true;   //start at first time
+    private float barometerTickSpacing;
+    private double lineSpace;
+    private float pressure;
+    private String pressureText;
+    private float lineSize;
+    private float curSize;
+    private int pressureTextY;
+    private String pressureUnit;
+    private int trendType;
+    private int labelFontSize;
+    private int numericFontSize;
+    private Typeface typeface;
+
     public WindView(Context context) {
         super(context);
         setupView();
@@ -65,7 +109,24 @@ public class WindView extends View {
 
     private void setupView()
     {
-
+        Resources resources = getContext().getResources();
+        primaryTextColor = resources.getColor(R.color.text_color);
+        paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setStyle(Paint.Style.FILL);
+        smallPoleBitmap = BitmapFactory.decodeResource(resources, R.drawable.smallpole);
+        bigPoleBitmap = BitmapFactory.decodeResource(resources, R.drawable.bigpole);
+        smallBladeBitmap = BitmapFactory.decodeResource(resources, R.drawable.smallblade);
+        bigBladeBitmap = BitmapFactory.decodeResource(resources, R.drawable.bigblade);
+        barometerBitmap = BitmapFactory.decodeResource(resources, R.drawable.barometer);
+        matrix = new Matrix();
+        WindDirectionText = "";
+        rotation = 0.0f;
+        lineSpace = toPixel(1d);
+        pressureLineSize = lineSpace + (barometerTickSpacing);
+        senterOfPressureLine = (9d * pressureLineSize) + lineSpace;
+        pressurePaddingTop = getPaddingTop();
+        pathEffect = new DashPathEffect(new float[]{4f, 4f}, 0f);
     }
 
     @Override
@@ -79,5 +140,17 @@ public class WindView extends View {
     }
     private int getScale(int i) {
         return (int) ((getContext().getResources().getDisplayMetrics().density * ((float) i)) + 0.5f);
+    }
+
+    public Typeface getTypeface() {
+        return typeface;
+    }
+
+    public void setTypeface(Typeface typeface) {
+        this.typeface = typeface;
+        paint.setTypeface(typeface);
+    }
+    private double toPixel(double d) {
+        return (getContext().getResources().getDisplayMetrics().density) * d;
     }
 }
