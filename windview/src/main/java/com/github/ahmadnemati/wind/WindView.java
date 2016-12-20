@@ -170,6 +170,18 @@ public class WindView extends View {
             }
             initPath(canvas);
             drawPressure(canvas);
+            if (isUpTrend() && curSize < lineSize && animationBaroMeterEnable) {
+                curSize += 1.0f;
+                enable = true;
+            } else if (isDownTrend() && curSize > lineSize && animationBaroMeterEnable) {
+                curSize -= 1.0f;
+                enable = true;
+            } else {
+                animationBaroMeterEnable = false;
+            }
+            if ((animationEnable && windSpeed > 0.0f) || enable) {
+                invalidate();
+            }
         }
     }
 
@@ -211,6 +223,14 @@ public class WindView extends View {
             paint.setTextSize((float) numericFontSize);
             canvas.drawText(pressureText, measureText - (((float) (((int) paint.measureText(pressureText)) + 4)) + ((float) ((int) paint.measureText(" ")))), f, paint);
         }
+    }
+
+    private boolean isDownTrend() {
+        return trendType == 1 || trendType == 4;
+    }
+
+    private boolean isUpTrend() {
+        return trendType == 0 || trendType == 3;
     }
 
 
