@@ -162,11 +162,33 @@ public class WindView extends View {
             matrix.setRotate(rotation, ((float) smallBladeBitmap.getWidth()) / 2.0f, ((float) smallBladeBitmap.getHeight()) / 2.0f);
             matrix.postTranslate((float) (width - (smallBladeBitmap.getWidth() / 2)), (float) (height2 - (smallBladeBitmap.getHeight() / 2)));
             canvas.drawBitmap(smallBladeBitmap, matrix, paint);
-
+            drawWind(canvas);
+            drawBarometer(canvas);
+            if (!animationEnable) {
+                curSize = lineSize;
+            }
+            initPath(canvas);
         }
     }
 
-
+    private void drawWind(Canvas canvas) {
+        paint.setTextSize((float) labelFontSize);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setPathEffect(null);
+        float width = (((float) smallPoleX) + (((float) smallBladeBitmap.getWidth()) / 2.0f)) + ((float) windTextX);
+        canvas.drawText(windText, width, (float) windTextY, paint);
+        if (windSpeed < 0.0f) {
+            paint.setTextSize((float) labelFontSize);
+            canvas.drawText(windName, width, (float) (windTextY + labelFontSize), paint);
+        } else if (!stringValid(windSpeedText)) {
+            paint.setTextSize((float) numericFontSize);
+            canvas.drawText(windSpeedText, width, (float) (windTextY + numericFontSize), paint);
+            if (!stringValid(windName)) {
+                paint.setTextSize((float) labelFontSize);
+                canvas.drawText(windName, width + (((float) (windSpeedText.length() * numericFontSize)) / 2.0f), (float) (windTextY + numericFontSize), paint);
+            }
+        }
+    }
 
 
     public void start() {
@@ -195,9 +217,44 @@ public class WindView extends View {
         return typeface;
     }
 
+    private void drawBarometer(Canvas canvas) {
+        paint.setStrokeWidth(2.0f);
+        paint.setColor(1073741823);
+        paint.setStyle(Paint.Style.FILL);
+        int width = getWidth();
+        float f = pressurePaddingTop;
+        for (int i = 0; i < 10; i++) {
+            canvas.drawLine((float) (((double) width) - toPixel(5d)), f, (float) width, f, paint);
+            f = (float) (((double) f) + (lineSpace + ((double) barometerTickSpacing)));
+        }
+        paint.setColor(primaryTextColor);
+    }
+
+    private void initPath(Canvas canvas) {
+        paint.setColor(1073741823);
+        paint.setStrokeWidth(1.0f);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setPathEffect(pathEffect);
+        float width = (float) getWidth();
+        if (path == null) {
+            path = new Path();
+        } else {
+            path.reset();
+        }
+        path.moveTo(10.0f, curSize);
+        path.quadTo(width / 2.0f, curSize, width - 20.0f, curSize);
+        canvas.drawPath(path, paint);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setPathEffect(null);
+        paint.setColor(primaryTextColor);
+    }
+
     public void setTypeface(Typeface typeface) {
         this.typeface = typeface;
         paint.setTypeface(typeface);
+    }
+    private boolean stringValid(String str) {
+        return str == null || str.trim().length() == 0 || str.trim().equalsIgnoreCase("null");
     }
 
     private double toPixel(double d) {
