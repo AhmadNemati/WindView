@@ -18,6 +18,11 @@ import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+
+import java.text.NumberFormat;
 
 /**
  * Created by َAhmad Nemati on 12/19/2016.
@@ -203,6 +208,7 @@ public class WindView extends View {
             }
         }
     }
+
     private void drawPressure(Canvas canvas) {
         float f = curSize + ((float) pressureTextY);
         int width = (getWidth() - 14) - scale;
@@ -244,8 +250,82 @@ public class WindView extends View {
     }
 
 
+
+    public void trendConfig(int i, boolean z) {
+        trendType = i;
+        if (getHeight() > 0) {
+            setupPressureLine(false);
+        }
+    }
+    private void initSpeedUnit() {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (windSpeed < 0.0f || windSpeedUnit == null) {
+            stringBuilder.append("--");
+        } else {
+            stringBuilder.append(" ").append(windSpeedUnit).append(" ").append(WindDirectionText);
+        }
+        windName = stringBuilder.toString();
+    }
+
+    public void setWindSpeedUnit(String str) {
+        windSpeedUnit = str;
+        initSpeedUnit();
+    }
+
+    public void setWindDirection(String str) {
+        WindDirectionText = str;
+        initSpeedUnit();
+    }
+
     private int getScale(int i) {
         return (int) ((getContext().getResources().getDisplayMetrics().density * ((float) i)) + 0.5f);
+    }
+
+    private String formatFloat(float f) {
+        try {
+            return NumberFormat.getInstance().format(f);
+        } catch (Exception e) {
+            return "--";
+        }
+    }
+
+    private void setupPressureLine(boolean z) {
+        int height = getHeight();
+        if (height > 0) {
+            if ((senterOfPressureLine + ((double) getPaddingTop())) + ((double) getPaddingBottom()) >= ((double) height)) {
+                senterOfPressureLine = (double) ((height - getPaddingTop()) - getPaddingBottom());
+                pressureLineSize = senterOfPressureLine / 10.0d;
+            }
+            pressurePaddingTop = (float) (((double) ((height - getPaddingTop()) / 2)) - (senterOfPressureLine / 2.0d));
+            float f = (float) ((((double) pressurePaddingTop) + (pressureLineSize * 5.0d)) + lineSpace);
+            if (z) {
+                lineSize = f;
+                curSize = lineSize;
+            } else if (isUpTrend()) {
+                lineSize = (float) ((((double) pressurePaddingTop) + (pressureLineSize * 6.0d)) + lineSpace);
+                if (animationBaroMeterEnable) {
+                    curSize = (float) ((((double) pressurePaddingTop) + (pressureLineSize * 4.0d)) + lineSpace);
+                } else {
+                    curSize = lineSize;
+                }
+                trendBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.trend_falling);
+            } else if (isDownTrend()) {
+                lineSize = (float) ((((double) pressurePaddingTop) + (pressureLineSize * 5.0d)) + lineSpace);
+                if (animationBaroMeterEnable) {
+                    curSize = (float) ((((double) pressurePaddingTop) + (pressureLineSize * 7.0d)) + lineSpace);
+                } else {
+                    curSize = lineSize;
+                }
+                trendBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.trend_rising);
+            } else {
+                lineSize = f;
+                curSize = lineSize;
+                if (trendBitmap != null) {
+                    trendBitmap.recycle();
+                    trendBitmap = null;
+                }
+            }
+        }
     }
 
     private void startTimes() {
@@ -296,11 +376,62 @@ public class WindView extends View {
         this.typeface = typeface;
         paint.setTypeface(typeface);
     }
+
     private boolean stringValid(String str) {
         return str == null || str.trim().length() == 0 || str.trim().equalsIgnoreCase("null");
     }
 
     private double toPixel(double d) {
         return (getContext().getResources().getDisplayMetrics().density) * d;
+    }
+
+    public void cleanView() {
+        if (smallPoleBitmap != null) {
+            smallPoleBitmap.recycle();
+            smallPoleBitmap = null;
+        }
+        if (bigPoleBitmap != null) {
+            bigPoleBitmap.recycle();
+            bigPoleBitmap = null;
+        }
+        if (smallBladeBitmap != null) {
+            smallBladeBitmap.recycle();
+            smallBladeBitmap = null;
+        }
+        if (bigBladeBitmap != null) {
+            bigBladeBitmap.recycle();
+            bigBladeBitmap = null;
+        }
+        if (trendBitmap != null) {
+            trendBitmap.recycle();
+            trendBitmap = null;
+        }
+        if (barometerBitmap != null) {
+            barometerBitmap.recycle();
+            barometerBitmap = null;
+        }
+        clearView(this);
+    }
+
+    private void clearView(View view) {
+        if (!(view == null || view.getBackground() == null)) {
+            view.getBackground().setCallback(null);
+        }
+        if (!(view == null || !(view instanceof ImageView) || ((ImageView) view).getDrawable() == null)) {
+            ((ImageView) view).getDrawable().setCallback(null);
+            ((ImageView) view).setImageDrawable(null);
+        }
+        if (view != null && (view instanceof ViewGroup)) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                clearView(((ViewGroup) view).getChildAt(i));
+            }
+            try {
+                if (!(view instanceof AdapterView)) {
+                    ((ViewGroup) view).removeAllViews();
+                }
+            } catch (UnsupportedOperationException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
