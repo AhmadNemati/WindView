@@ -162,11 +162,30 @@ public class WindView extends View {
             matrix.setRotate(rotation, ((float) smallBladeBitmap.getWidth()) / 2.0f, ((float) smallBladeBitmap.getHeight()) / 2.0f);
             matrix.postTranslate((float) (width - (smallBladeBitmap.getWidth() / 2)), (float) (height2 - (smallBladeBitmap.getHeight() / 2)));
             canvas.drawBitmap(smallBladeBitmap, matrix, paint);
+            drawWind(canvas);
+
 
         }
     }
 
-
+    private void drawWind(Canvas canvas) {
+        paint.setTextSize((float) labelFontSize);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setPathEffect(null);
+        float width = (((float) smallPoleX) + (((float) smallBladeBitmap.getWidth()) / 2.0f)) + ((float) windTextX);
+        canvas.drawText(windText, width, (float) windTextY, paint);
+        if (windSpeed < 0.0f) {
+            paint.setTextSize((float) labelFontSize);
+            canvas.drawText(windName, width, (float) (windTextY + labelFontSize), paint);
+        } else if (!stringValid(windSpeedText)) {
+            paint.setTextSize((float) numericFontSize);
+            canvas.drawText(windSpeedText, width, (float) (windTextY + numericFontSize), paint);
+            if (!stringValid(windName)) {
+                paint.setTextSize((float) labelFontSize);
+                canvas.drawText(windName, width + (((float) (windSpeedText.length() * numericFontSize)) / 2.0f), (float) (windTextY + numericFontSize), paint);
+            }
+        }
+    }
 
 
     public void start() {
@@ -189,6 +208,10 @@ public class WindView extends View {
         startTime = nanoTime;
         rotation = ((float) ((Math.sqrt((double) windSpeed) * ((double) f)) / 20.0d)) + rotation;
         rotation %= 360.0f;
+    }
+
+    private boolean stringValid(String str) {
+        return str == null || str.trim().length() == 0 || str.trim().equalsIgnoreCase("null");
     }
 
     public Typeface getTypeface() {
