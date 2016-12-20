@@ -148,7 +148,7 @@ public class WindView extends View {
         animationEnable = false;
     }
 
-    public void setWindSpeedText(float f) {
+    public void setWindSpeed(float f) {
         windSpeed = f;
         if (windSpeed >= 36.0f && animationEnable) {
             if (smallBladeBitmap != null) {
