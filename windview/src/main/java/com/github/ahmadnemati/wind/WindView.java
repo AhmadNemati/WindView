@@ -17,10 +17,10 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.github.ahmadnemati.wind.enums.TrendType;
 
@@ -46,7 +46,6 @@ public class WindView extends View {
     private Bitmap smallBladeBitmap;
     private Bitmap bigBladeBitmap;
     private Bitmap trendBitmap;
-    private Bitmap barometerBitmap;
     private float rotation;
     private int bigPoleX;
     private int smallPoleX;
@@ -124,6 +123,7 @@ public class WindView extends View {
     }
 
     private void setupView() {
+
         Resources resources = getContext().getResources();
         textColor = resources.getColor(R.color.text_color);
         paint = new Paint();
@@ -134,7 +134,6 @@ public class WindView extends View {
         bigPoleBitmap = BitmapFactory.decodeResource(resources, R.drawable.bigpole);
         smallBladeBitmap = BitmapFactory.decodeResource(resources, R.drawable.smallblade);
         bigBladeBitmap = BitmapFactory.decodeResource(resources, R.drawable.bigblade);
-        barometerBitmap = BitmapFactory.decodeResource(resources, R.drawable.barometer);
         matrix = new Matrix();
         WindDirectionText = "";
         rotation = 0.0f;
@@ -146,10 +145,14 @@ public class WindView extends View {
 
     }
 
+
+
     public void start() {
         animationEnable = true;
         invalidate();
     }
+
+
 
     public void stop() {
         animationEnable = false;
@@ -214,11 +217,10 @@ public class WindView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-       initCanvas(canvas);
+        initCanvas(canvas);
     }
 
-    private void initCanvas(Canvas canvas)
-    {
+    private void initCanvas(Canvas canvas) {
         boolean enable = false;
         if (bigPoleBitmap != null && smallBladeBitmap != null && bigBladeBitmap != null) {
             paint.setColor(textColor);
@@ -397,36 +399,13 @@ public class WindView extends View {
     }
 
 
-    public void cleanView() {
-        if (smallPoleBitmap != null) {
-            smallPoleBitmap.recycle();
-            smallPoleBitmap = null;
-        }
-        if (bigPoleBitmap != null) {
-            bigPoleBitmap.recycle();
-            bigPoleBitmap = null;
-        }
-        if (smallBladeBitmap != null) {
-            smallBladeBitmap.recycle();
-            smallBladeBitmap = null;
-        }
-        if (bigBladeBitmap != null) {
-            bigBladeBitmap.recycle();
-            bigBladeBitmap = null;
-        }
-        if (trendBitmap != null) {
-            trendBitmap.recycle();
-            trendBitmap = null;
-        }
-        if (barometerBitmap != null) {
-            barometerBitmap.recycle();
-            barometerBitmap = null;
-        }
-        clearView(this);
-    }
-
     private int getScaleInPixel(int i) {
         return (int) ((getContext().getResources().getDisplayMetrics().density * ((float) i)) + 0.5f);
+    }
+
+    private int dpToPx(int dp) {
+        Resources r = getResources();
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
     }
 
 
@@ -450,27 +429,6 @@ public class WindView extends View {
         return str == null || str.trim().length() == 0 || str.trim().equalsIgnoreCase("null");
     }
 
-    private void clearView(View view) {
-        if (!(view == null || view.getBackground() == null)) {
-            view.getBackground().setCallback(null);
-        }
-        if (!(view == null || !(view instanceof ImageView) || ((ImageView) view).getDrawable() == null)) {
-            ((ImageView) view).getDrawable().setCallback(null);
-            ((ImageView) view).setImageDrawable(null);
-        }
-        if (view != null && (view instanceof ViewGroup)) {
-            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-                clearView(((ViewGroup) view).getChildAt(i));
-            }
-            try {
-                if (!(view instanceof AdapterView)) {
-                    ((ViewGroup) view).removeAllViews();
-                }
-            } catch (UnsupportedOperationException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     public TrendType getTrendType() {
         return trendType;
