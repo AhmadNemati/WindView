@@ -214,6 +214,11 @@ public class WindView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+       initCanvas(canvas);
+    }
+
+    private void initCanvas(Canvas canvas)
+    {
         boolean enable = false;
         if (bigPoleBitmap != null && smallBladeBitmap != null && bigBladeBitmap != null) {
             paint.setColor(textColor);
@@ -523,5 +528,149 @@ public class WindView extends View {
 
     public void setBarometerStrokeWidth(float barometerStrokeWidth) {
         this.barometerStrokeWidth = barometerStrokeWidth;
+    }
+
+    public static String getTAG() {
+        return TAG;
+    }
+
+    public String getWindDirectionText() {
+        return WindDirectionText;
+    }
+
+    public void setWindDirectionText(String windDirectionText) {
+        WindDirectionText = windDirectionText;
+    }
+
+    public int getBigPoleX() {
+        return bigPoleX;
+    }
+
+    public void setBigPoleX(int bigPoleX) {
+        this.bigPoleX = bigPoleX;
+    }
+
+    public int getSmallPoleX() {
+        return smallPoleX;
+    }
+
+    public void setSmallPoleX(int smallPoleX) {
+        this.smallPoleX = smallPoleX;
+    }
+
+    public String getWindText() {
+        return windText;
+    }
+
+    public void setWindText(String windText) {
+        this.windText = windText;
+    }
+
+    public String getWindName() {
+        return windName;
+    }
+
+    public void setWindName(String windName) {
+        this.windName = windName;
+    }
+
+    public String getWindSpeedText() {
+        return windSpeedText;
+    }
+
+    public void setWindSpeedText(String windSpeedText) {
+        this.windSpeedText = windSpeedText;
+    }
+
+    public String getBarometerText() {
+        return barometerText;
+    }
+
+    public void setBarometerText(String barometerText) {
+        this.barometerText = barometerText;
+    }
+
+    public int getPoleBottomY() {
+        return poleBottomY;
+    }
+
+    public void setPoleBottomY(int poleBottomY) {
+        this.poleBottomY = poleBottomY;
+    }
+
+    public int getWindTextX() {
+        return windTextX;
+    }
+
+    public void setWindTextX(int windTextX) {
+        this.windTextX = windTextX;
+    }
+
+    public int getWindTextY() {
+        return windTextY;
+    }
+
+    public void setWindTextY(int windTextY) {
+        this.windTextY = windTextY;
+    }
+
+    public String getWindSpeedUnit() {
+        return windSpeedUnit;
+    }
+
+    public Rect getRect() {
+        return rect;
+    }
+
+    public void setRect(Rect rect) {
+        this.rect = rect;
+    }
+
+    public int getLabelFontSize() {
+        return labelFontSize;
+    }
+
+    public void setLabelFontSize(int labelFontSize) {
+        this.labelFontSize = labelFontSize;
+    }
+
+    public int getNumericFontSize() {
+        return numericFontSize;
+    }
+
+    public void setNumericFontSize(int numericFontSize) {
+        this.numericFontSize = numericFontSize;
+    }
+
+    public String getPressureUnit() {
+        return pressureUnit;
+    }
+
+    public int getPressureTextY() {
+        return pressureTextY;
+    }
+
+    public void setPressureTextY(int pressureTextY) {
+        this.pressureTextY = pressureTextY;
+    }
+
+    public float getPressure() {
+        return pressure;
+    }
+
+    public float getLineSize() {
+        return lineSize;
+    }
+
+    public void setLineSize(float lineSize) {
+        this.lineSize = lineSize;
+    }
+
+    public double getLineSpace() {
+        return lineSpace;
+    }
+
+    public void setLineSpace(double lineSpace) {
+        this.lineSpace = lineSpace;
     }
 }
