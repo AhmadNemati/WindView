@@ -22,6 +22,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 
+import com.github.ahmadnemati.wind.enums.TrendType;
+
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 
@@ -35,7 +37,7 @@ public class WindView extends View {
     private Path path;
     private Matrix matrix;
     private Paint paint;
-    private int primaryTextColor;
+    private int textColor;
     private String WindDirectionText;
     private long startTime = 0;
     private PathEffect pathEffect;
@@ -71,11 +73,16 @@ public class WindView extends View {
     private float curSize;
     private int pressureTextY;
     private String pressureUnit;
-    private int trendType;
     private int labelFontSize;
     private int numericFontSize;
     private Typeface typeface;
-    private String empty="--";
+    private String empty = "--";
+    private TrendType trendType = TrendType.UP;
+    private int lineColor = 1073741823;
+    private float lineStrokeWidth = 1f;
+    private int barometerColor = 1073741823;
+    private float barometerStrokeWidth = 2f;
+
 
     public WindView(Context context) {
         super(context);
@@ -99,8 +106,7 @@ public class WindView extends View {
     }
 
 
-    private void init(AttributeSet attrs)
-    {
+    private void init(AttributeSet attrs) {
         TypedArray obtainStyledAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.WindView);
         pressure = obtainStyledAttributes.getFloat(R.styleable.WindView_pressure, -1.0f);
         windTextX = obtainStyledAttributes.getDimensionPixelSize(R.styleable.WindView_windTextX, 242);
@@ -116,12 +122,13 @@ public class WindView extends View {
         obtainStyledAttributes.recycle();
         setupView();
     }
+
     private void setupView() {
         Resources resources = getContext().getResources();
-        primaryTextColor = resources.getColor(R.color.text_color);
+        textColor = resources.getColor(R.color.text_color);
         paint = new Paint();
         paint.setAntiAlias(true);
-        paint.setTypeface(getTypeFace());
+        paint.setTypeface(getTypeface());
         paint.setStyle(Paint.Style.FILL);
         smallPoleBitmap = BitmapFactory.decodeResource(resources, R.drawable.smallpole);
         bigPoleBitmap = BitmapFactory.decodeResource(resources, R.drawable.bigpole);
@@ -198,23 +205,19 @@ public class WindView extends View {
         pressureUnit = str;
     }
 
-    public void trendConfig(int i, boolean z) {
-        trendType = i;
-        if (getHeight() > 0) {
-            setupPressureLine(false);
-        }
-    }
 
-    public void onSizeChanged(int i, int i2, int i3, int i4) {
-        super.onSizeChanged(i, i2, i3, i4);
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
         setupPressureLine(false);
     }
 
-
+    @Override
     protected void onDraw(Canvas canvas) {
         boolean enable = false;
         if (bigPoleBitmap != null && smallBladeBitmap != null && bigBladeBitmap != null) {
-            paint.setColor(primaryTextColor);
+            paint.setColor(textColor);
+            paint.setTypeface(typeface);
             canvas.drawBitmap(bigPoleBitmap, bigPoleX, (poleBottomY - bigPoleBitmap.getHeight()), paint);
             canvas.drawBitmap(smallPoleBitmap, smallPoleX, (poleBottomY - smallPoleBitmap.getHeight()), paint);
             if (animationEnable) {
@@ -226,28 +229,28 @@ public class WindView extends View {
             rect.top = height - (bigBladeBitmap.getHeight() / 2);
             rect.bottom = (bigBladeBitmap.getHeight() / 2) + height;
             matrix.reset();
-            matrix.setRotate(rotation, ((float) bigBladeBitmap.getWidth()) / 2.0f, (bigBladeBitmap.getHeight()) / 2.0f);
-            matrix.postTranslate((float) (width - (bigBladeBitmap.getWidth() / 2)), (height - (bigBladeBitmap.getHeight() / 2)));
+            matrix.setRotate(rotation, (bigBladeBitmap.getWidth()) / 2.0f, (bigBladeBitmap.getHeight()) / 2.0f);
+            matrix.postTranslate((width - (bigBladeBitmap.getWidth() / 2)), (height - (bigBladeBitmap.getHeight() / 2)));
             canvas.drawBitmap(bigBladeBitmap, matrix, paint);
             width = smallPoleX + (smallPoleBitmap.getWidth() / 2);
             int height2 = (poleBottomY - smallPoleBitmap.getHeight()) - 4;
             rect.right = (smallBladeBitmap.getWidth() / 2) + width;
             rect.bottom = Math.max(rect.bottom, height + (smallBladeBitmap.getHeight() / 2));
             matrix.reset();
-            matrix.setRotate(rotation, ((float) smallBladeBitmap.getWidth()) / 2.0f, ((float) smallBladeBitmap.getHeight()) / 2.0f);
-            matrix.postTranslate((float) (width - (smallBladeBitmap.getWidth() / 2)), (float) (height2 - (smallBladeBitmap.getHeight() / 2)));
+            matrix.setRotate(rotation, (smallBladeBitmap.getWidth()) / 2.0f, (smallBladeBitmap.getHeight()) / 2.0f);
+            matrix.postTranslate((width - (smallBladeBitmap.getWidth() / 2)), (height2 - (smallBladeBitmap.getHeight() / 2)));
             canvas.drawBitmap(smallBladeBitmap, matrix, paint);
             drawWind(canvas);
             drawBarometer(canvas);
             if (!animationEnable) {
                 curSize = lineSize;
             }
-            initPath(canvas);
+            drawLine(canvas);
             drawPressure(canvas);
-            if (isUpTrend() && curSize < lineSize && animationBaroMeterEnable) {
+            if (trendType == TrendType.DOWN && curSize < lineSize && animationBaroMeterEnable) {
                 curSize += 1.0f;
                 enable = true;
-            } else if (isDownTrend() && curSize > lineSize && animationBaroMeterEnable) {
+            } else if (trendType == TrendType.UP && curSize > lineSize && animationBaroMeterEnable) {
                 curSize -= 1.0f;
                 enable = true;
             } else {
@@ -259,17 +262,9 @@ public class WindView extends View {
         }
     }
 
-    private boolean isDownTrend() {
-        return trendType == 1 || trendType == 4;
-    }
-
-    private boolean isUpTrend() {
-        return trendType == 0 || trendType == 3;
-    }
-
-    private void initPath(Canvas canvas) {
-        paint.setColor(1073741823);
-        paint.setStrokeWidth(1.0f);
+    private void drawLine(Canvas canvas) {
+        paint.setColor(lineColor);
+        paint.setStrokeWidth(lineStrokeWidth);
         paint.setStyle(Paint.Style.STROKE);
         paint.setPathEffect(pathEffect);
         float width = (float) getWidth();
@@ -283,7 +278,7 @@ public class WindView extends View {
         canvas.drawPath(path, paint);
         paint.setStyle(Paint.Style.FILL);
         paint.setPathEffect(null);
-        paint.setColor(primaryTextColor);
+        paint.setColor(textColor);
     }
 
     private void setupPressureLine(boolean z) {
@@ -298,15 +293,15 @@ public class WindView extends View {
             if (z) {
                 lineSize = f;
                 curSize = lineSize;
-            } else if (isUpTrend()) {
-                lineSize = (float) ((((double) pressurePaddingTop) + (pressureLineSize * 6.0d)) + lineSpace);
+            } else if (trendType == TrendType.DOWN) {
+                lineSize = (float) ((((double) pressurePaddingTop) + (pressureLineSize * 5.0d)) + lineSpace);
                 if (animationBaroMeterEnable) {
-                    curSize = (float) ((((double) pressurePaddingTop) + (pressureLineSize * 4.0d)) + lineSpace);
+                    curSize = (float) ((((double) pressurePaddingTop) + (pressureLineSize * 7.0d)) + lineSpace);
                 } else {
                     curSize = lineSize;
                 }
                 trendBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.trend_falling);
-            } else if (isDownTrend()) {
+            } else if (trendType == TrendType.UP) {
                 lineSize = (float) ((((double) pressurePaddingTop) + (pressureLineSize * 5.0d)) + lineSpace);
                 if (animationBaroMeterEnable) {
                     curSize = (float) ((((double) pressurePaddingTop) + (pressureLineSize * 7.0d)) + lineSpace);
@@ -326,20 +321,20 @@ public class WindView extends View {
     }
 
     private void drawWind(Canvas canvas) {
-        paint.setTextSize((float) labelFontSize);
+        paint.setTextSize(labelFontSize);
         paint.setStyle(Paint.Style.FILL);
         paint.setPathEffect(null);
-        float width = (((float) smallPoleX) + (((float) smallBladeBitmap.getWidth()) / 2.0f)) + ((float) windTextX);
-        canvas.drawText(windText, width, (float) windTextY, paint);
+        float width = (((smallPoleX) + ((smallBladeBitmap.getWidth()) / 2.0f)) + windTextX);
+        canvas.drawText(windText, width, windTextY, paint);
         if (windSpeed < 0.0f) {
-            paint.setTextSize((float) labelFontSize);
-            canvas.drawText(windName, width, (float) (windTextY + labelFontSize), paint);
+            paint.setTextSize(labelFontSize);
+            canvas.drawText(windName, width, (windTextY + labelFontSize), paint);
         } else if (!stringValid(windSpeedText)) {
-            paint.setTextSize((float) numericFontSize);
-            canvas.drawText(windSpeedText, width, (float) (windTextY + numericFontSize), paint);
+            paint.setTextSize(numericFontSize);
+            canvas.drawText(windSpeedText, width, (windTextY + numericFontSize), paint);
             if (!stringValid(windName)) {
-                paint.setTextSize((float) labelFontSize);
-                canvas.drawText(windName, width + (((float) (windSpeedText.length() * numericFontSize)) / 2.0f), (float) (windTextY + numericFontSize), paint);
+                paint.setTextSize(labelFontSize);
+                canvas.drawText(windName, width + (((windSpeedText.length() * numericFontSize)) / 2.0f), (windTextY + numericFontSize), paint);
             }
         }
     }
@@ -375,8 +370,8 @@ public class WindView extends View {
     }
 
     private void drawBarometer(Canvas canvas) {
-        paint.setStrokeWidth(2.0f);
-        paint.setColor(1073741823);
+        paint.setStrokeWidth(barometerStrokeWidth);
+        paint.setColor(barometerColor);
         paint.setStyle(Paint.Style.FILL);
         int width = getWidth();
         float f = pressurePaddingTop;
@@ -384,7 +379,7 @@ public class WindView extends View {
             canvas.drawLine((float) (((double) width) - toPixel(5d)), f, (float) width, f, paint);
             f = (float) (((double) f) + (lineSpace + ((double) barometerTickSpacing)));
         }
-        paint.setColor(primaryTextColor);
+        paint.setColor(textColor);
     }
 
 
@@ -429,13 +424,6 @@ public class WindView extends View {
         return (int) ((getContext().getResources().getDisplayMetrics().density * ((float) i)) + 0.5f);
     }
 
-    private Typeface getTypeFace() {
-        Typeface create = Typeface.create("sans-serif-light", 0);
-        if (create == null) {
-            return Typeface.DEFAULT;
-        }
-        return create;
-    }
 
     private double toPixel(double d) {
         return ((double) getContext().getResources().getDisplayMetrics().density) * d;
@@ -457,7 +445,6 @@ public class WindView extends View {
         return str == null || str.trim().length() == 0 || str.trim().equalsIgnoreCase("null");
     }
 
-
     private void clearView(View view) {
         if (!(view == null || view.getBackground() == null)) {
             view.getBackground().setCallback(null);
@@ -478,5 +465,63 @@ public class WindView extends View {
                 e.printStackTrace();
             }
         }
+    }
+
+    public TrendType getTrendType() {
+        return trendType;
+    }
+
+    public void setTrendType(TrendType trendType) {
+        this.trendType = trendType;
+    }
+
+    public Typeface getTypeface() {
+        if (typeface == null)
+            return Typeface.DEFAULT;
+        return typeface;
+    }
+
+    public void setTypeface(Typeface typeface) {
+        this.typeface = typeface;
+    }
+
+    public int getTextColor() {
+        return textColor;
+    }
+
+    public void setTextColor(int textColor) {
+        this.textColor = textColor;
+    }
+
+    public int getLineColor() {
+        return lineColor;
+    }
+
+    public void setLineColor(int lineColor) {
+        this.lineColor = lineColor;
+    }
+
+    public float getLineStrokeWidth() {
+        return lineStrokeWidth;
+    }
+
+    public void setLineStrokeWidth(float lineStrokeWidth) {
+        this.lineStrokeWidth = lineStrokeWidth;
+    }
+
+    public int getBarometerColor() {
+        return barometerColor;
+    }
+
+    public void setBarometerColor(int barometerColor) {
+        this.barometerColor = barometerColor;
+    }
+
+    public float getBarometerStrokeWidth() {
+        return barometerStrokeWidth;
+    }
+
+    public void setBarometerStrokeWidth(float barometerStrokeWidth) {
+        this.barometerStrokeWidth = barometerStrokeWidth;
     }
 }
