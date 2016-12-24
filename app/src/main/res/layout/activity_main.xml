@@ -45,6 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
+        android:layout_marginBottom="50dp"
         android:layout_marginTop="25dp"
         app:cardBackgroundColor="#411b33bc"
         app:cardCornerRadius="4dp"
@@ -58,7 +59,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:orientation="vertical">
 
@@ -77,13 +78,15 @@
                         android:tint="#ffffff" />
 
                     <SeekBar
+                        android:id="@+id/wind_speed"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:max="50"
-                        android:progress="15" />
+                        android:max="30"
+                        android:progress="1" />
 
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -94,17 +97,19 @@
 
                     <ImageView
                         android:layout_width="25dp"
+
                         android:layout_height="25dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_weather_windy_variant_black_36dp"
                         android:tint="#ffffff" />
 
                     <SeekBar
+                        android:id="@+id/pressure"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:max="50"
-                        android:progress="15" />
+                        android:max="100"
+                        android:progress="20" />
 
                 </LinearLayout>
 
@@ -123,60 +128,51 @@
                         android:src="@mipmap/ic_launcher"
                         android:tint="#ffffff" />
 
-                    <SeekBar
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:max="50"
-                        android:progress="15" />
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/radioButton1"
+                            style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:gravity="center"
+                            android:text="UP"
+                            android:textColor="#F5F5F5" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton2"
+                            style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="DOWN"
+                            android:textColor="#F5F5F5" />
+
+                        <RadioButton
+                            style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="NONE"
+                            android:textColor="#F5F5F5" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="center"
-                        android:src="@mipmap/ic_launcher"
-                        android:tint="#ffffff" />
-
-                    <SeekBar
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:max="50"
-                        android:progress="15" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="center"
-                        android:src="@mipmap/ic_launcher"
-                        android:tint="#ffffff" />
-
-                    <SeekBar
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:max="50"
-                        android:progress="15" />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -201,7 +197,95 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:text="Animate Barometer"
-                        android:textColor="#8BC34A" />
+                        android:textColor="#1B5E20" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/ic_launcher"
+                        android:tint="#ffffff" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/radioButton1"
+                            style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:gravity="center"
+                            android:text="UP"
+                            android:textColor="#F5F5F5" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton2"
+                            style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="DOWN"
+                            android:textColor="#F5F5F5" />
+
+                        <RadioButton
+                            style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="NONE"
+                            android:textColor="#F5F5F5" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_chart_areaspline_black_36dp"
+                        android:tint="#ffffff" />
+
+                    <Button
+                        android:id="@+id/appCompatButton"
+                        style="@style/AppTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:text="Animate Barometer"
+                        android:textColor="#1B5E20" />
 
                 </LinearLayout>
 
