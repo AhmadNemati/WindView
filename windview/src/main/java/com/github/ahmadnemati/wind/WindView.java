@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -75,9 +76,9 @@ public class WindView extends View {
     private Typeface typeface;
     private String empty = "--";
     private TrendType trendType = TrendType.UP;
-    private int lineColor = 1073741823;
+    private int lineColor = Color.WHITE;
     private float lineStrokeWidth = 1f;
-    private int barometerColor = 1073741823;
+    private int barometerColor = Color.WHITE;
     private float barometerStrokeWidth = 2f;
 
 
@@ -137,6 +138,7 @@ public class WindView extends View {
         bigBladeBitmap = BitmapFactory.decodeResource(resources, R.drawable.bigblade);
         matrix = new Matrix();
         WindDirectionText = "";
+        lineColor = Color.parseColor("#8bece8e8");
         rotation = 0.0f;
         lineSpace = toPixel(1d);
         pressureLineSize = lineSpace + (barometerTickSpacing);
