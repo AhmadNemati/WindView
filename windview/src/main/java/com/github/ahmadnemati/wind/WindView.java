@@ -19,8 +19,6 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.github.ahmadnemati.wind.enums.TrendType;
 
@@ -104,6 +102,9 @@ public class WindView extends View {
         init(attrs);
     }
 
+    public static String getTAG() {
+        return TAG;
+    }
 
     private void init(AttributeSet attrs) {
         TypedArray obtainStyledAttributes = getContext().obtainStyledAttributes(attrs, R.styleable.WindView);
@@ -145,14 +146,10 @@ public class WindView extends View {
 
     }
 
-
-
     public void start() {
         animationEnable = true;
         invalidate();
     }
-
-
 
     public void stop() {
         animationEnable = false;
@@ -175,11 +172,6 @@ public class WindView extends View {
         invalidate();
     }
 
-    public void setWindSpeedUnit(String str) {
-        windSpeedUnit = str;
-        initSpeedUnit();
-    }
-
     public void setWindDirection(String str) {
         WindDirectionText = str;
         initSpeedUnit();
@@ -194,20 +186,6 @@ public class WindView extends View {
         }
         windName = stringBuilder.toString();
     }
-
-    public void setPressure(float f) {
-        pressure = getscale(f, 2);
-        if (pressure < 0.0f) {
-            pressureText = empty;
-        } else {
-            pressureText = formatFloat(pressure);
-        }
-    }
-
-    public void setPressureUnit(String str) {
-        pressureUnit = str;
-    }
-
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -291,27 +269,27 @@ public class WindView extends View {
     private void setupPressureLine(boolean z) {
         int height = getHeight();
         if (height > 0) {
-            if ((senterOfPressureLine + ((double) getPaddingTop())) + ((double) getPaddingBottom()) >= ((double) height)) {
-                senterOfPressureLine = (double) ((height - getPaddingTop()) - getPaddingBottom());
+            if ((senterOfPressureLine + (getPaddingTop())) + (getPaddingBottom()) >= (height)) {
+                senterOfPressureLine = ((height - getPaddingTop()) - getPaddingBottom());
                 pressureLineSize = senterOfPressureLine / 10.0d;
             }
-            pressurePaddingTop = (float) (((double) ((height - getPaddingTop()) / 2)) - (senterOfPressureLine / 2.0d));
-            float f = (float) ((((double) pressurePaddingTop) + (pressureLineSize * 5.0d)) + lineSpace);
+            pressurePaddingTop = (float) ((((height - getPaddingTop()) / 2)) - (senterOfPressureLine / 2.0d));
+            float f = (float) (((pressurePaddingTop) + (pressureLineSize * 5.0d)) + lineSpace);
             if (z) {
                 lineSize = f;
                 curSize = lineSize;
             } else if (trendType == TrendType.DOWN) {
-                lineSize = (float) ((((double) pressurePaddingTop) + (pressureLineSize * 5.0d)) + lineSpace);
+                lineSize = (float) (((pressurePaddingTop) + (pressureLineSize * 5.0d)) + lineSpace);
                 if (animationBaroMeterEnable) {
-                    curSize = (float) ((((double) pressurePaddingTop) + (pressureLineSize * 7.0d)) + lineSpace);
+                    curSize = (float) (((pressurePaddingTop) + (pressureLineSize * 7.0d)) + lineSpace);
                 } else {
                     curSize = lineSize;
                 }
                 trendBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.trend_falling);
             } else if (trendType == TrendType.UP) {
-                lineSize = (float) ((((double) pressurePaddingTop) + (pressureLineSize * 5.0d)) + lineSpace);
+                lineSize = (float) (((pressurePaddingTop) + (pressureLineSize * 5.0d)) + lineSpace);
                 if (animationBaroMeterEnable) {
-                    curSize = (float) ((((double) pressurePaddingTop) + (pressureLineSize * 7.0d)) + lineSpace);
+                    curSize = (float) (((pressurePaddingTop) + (pressureLineSize * 7.0d)) + lineSpace);
                 } else {
                     curSize = lineSize;
                 }
@@ -347,14 +325,14 @@ public class WindView extends View {
     }
 
     private void drawPressure(Canvas canvas) {
-        float f = curSize + ((float) pressureTextY);
+        float f = curSize + (pressureTextY);
         int width = (getWidth() - 14) - scale;
-        paint.setTextSize((float) labelFontSize);
-        float measureText = (float) (width - ((int) paint.measureText(barometerText)));
-        f += (float) labelFontSize;
+        paint.setTextSize(labelFontSize);
+        float measureText = (width - (paint.measureText(barometerText)));
+        f += labelFontSize;
         canvas.drawText(barometerText, measureText, f, paint);
         if (trendBitmap != null) {
-            canvas.drawBitmap(trendBitmap, (measureText - ((float) trendBitmap.getWidth())) - 4.0f, f - ((float) (labelFontSize / 2)), paint);
+            canvas.drawBitmap(trendBitmap, (measureText - (trendBitmap.getWidth())) - 4.0f, f - ((labelFontSize / 2)), paint);
         }
         if (!TextUtils.isEmpty(pressureUnit)) {
             paint.setTextSize((float) labelFontSize);
@@ -364,7 +342,7 @@ public class WindView extends View {
         }
         if (!TextUtils.isEmpty(pressureText)) {
             paint.setTextSize((float) numericFontSize);
-            canvas.drawText(pressureText, measureText - (((float) (((int) paint.measureText(pressureText)) + 4)) + ((float) ((int) paint.measureText(" ")))), f, paint);
+            canvas.drawText(pressureText, measureText - ((((paint.measureText(pressureText)) + 4)) + ((paint.measureText(" ")))), f, paint);
         }
     }
 
@@ -372,7 +350,7 @@ public class WindView extends View {
         long nanoTime = System.nanoTime();
         float f = ((float) (nanoTime - startTime)) / 1000000.0f;
         startTime = nanoTime;
-        rotation = ((float) ((Math.sqrt((double) windSpeed) * ((double) f)) / 20.0d)) + rotation;
+        rotation = ((float) ((Math.sqrt((double) windSpeed) * (f)) / 20.0d)) + rotation;
         rotation %= 360.0f;
     }
 
@@ -383,12 +361,11 @@ public class WindView extends View {
         int width = getWidth();
         float f = pressurePaddingTop;
         for (int i = 0; i < 10; i++) {
-            canvas.drawLine((float) (((double) width) - toPixel(5d)), f, (float) width, f, paint);
-            f = (float) (((double) f) + (lineSpace + ((double) barometerTickSpacing)));
+            canvas.drawLine((float) ((width) - toPixel(5d)), f, width, f, paint);
+            f = (float) ((f) + (lineSpace + (barometerTickSpacing)));
         }
         paint.setColor(textColor);
     }
-
 
     public void animateBaroMeter() {
         if (!animationBaroMeterEnable) {
@@ -398,9 +375,8 @@ public class WindView extends View {
         }
     }
 
-
     private int getScaleInPixel(int i) {
-        return (int) ((getContext().getResources().getDisplayMetrics().density * ((float) i)) + 0.5f);
+        return (int) ((getContext().getResources().getDisplayMetrics().density * (i)) + 0.5f);
     }
 
     private int dpToPx(int dp) {
@@ -408,9 +384,8 @@ public class WindView extends View {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
     }
 
-
     private double toPixel(double d) {
-        return ((double) getContext().getResources().getDisplayMetrics().density) * d;
+        return (getContext().getResources().getDisplayMetrics().density) * d;
     }
 
     private String formatFloat(float f) {
@@ -428,7 +403,6 @@ public class WindView extends View {
     private boolean stringValid(String str) {
         return str == null || str.trim().length() == 0 || str.trim().equalsIgnoreCase("null");
     }
-
 
     public TrendType getTrendType() {
         return trendType;
@@ -486,10 +460,6 @@ public class WindView extends View {
 
     public void setBarometerStrokeWidth(float barometerStrokeWidth) {
         this.barometerStrokeWidth = barometerStrokeWidth;
-    }
-
-    public static String getTAG() {
-        return TAG;
     }
 
     public String getWindDirectionText() {
@@ -576,6 +546,11 @@ public class WindView extends View {
         return windSpeedUnit;
     }
 
+    public void setWindSpeedUnit(String str) {
+        windSpeedUnit = str;
+        initSpeedUnit();
+    }
+
     public Rect getRect() {
         return rect;
     }
@@ -604,6 +579,10 @@ public class WindView extends View {
         return pressureUnit;
     }
 
+    public void setPressureUnit(String str) {
+        pressureUnit = str;
+    }
+
     public int getPressureTextY() {
         return pressureTextY;
     }
@@ -614,6 +593,15 @@ public class WindView extends View {
 
     public float getPressure() {
         return pressure;
+    }
+
+    public void setPressure(float f) {
+        pressure = getscale(f, 2);
+        if (pressure < 0.0f) {
+            pressureText = empty;
+        } else {
+            pressureText = formatFloat(pressure);
+        }
     }
 
     public float getLineSize() {
