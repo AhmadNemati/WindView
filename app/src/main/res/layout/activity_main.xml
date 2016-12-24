@@ -17,9 +17,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:layout_marginTop="25dp"
-        app:cardBackgroundColor="#320a0202"
-
-        app:cardCornerRadius="6dp">
+        app:cardBackgroundColor="#11607d8b"
+        app:cardCornerRadius="4dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
 
         <com.github.ahmadnemati.wind.WindView
             android:id="@+id/windview"
@@ -45,151 +46,167 @@
         android:layout_height="match_parent"
         android:layout_margin="8dp"
         android:layout_marginTop="25dp"
-        app:cardBackgroundColor="#320a0202"
-        app:cardCornerRadius="6dp">
+        app:cardBackgroundColor="#411b33bc"
+        app:cardCornerRadius="4dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true">
+
         <ScrollView
             android:layout_width="match_parent"
-            android:fillViewport="true"
-            android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_margin="8dp"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:tint="#ffffff"
-                    android:src="@drawable/ic_weather_windy_black_36dp"/>
-                <SeekBar
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_gravity="center"
-                    android:max="50"
-                    android:progress="15"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:tint="#26c6da"
-                    android:src="@drawable/ic_weather_windy_variant_black_36dp"/>
-                <SeekBar
-                    android:layout_width="match_parent"
-                    android:layout_gravity="center"
-                    android:max="50"
-                    android:progress="15"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:tint="#64dd17"
-                    android:src="@drawable/ic_chart_areaspline_black_36dp"/>
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:text="Animate Barometer"
-                   style="@style/AppTheme"
-                    android:layout_gravity="center"
                     android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
-                    android:id="@+id/appCompatButton" />
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_weather_windy_black_36dp"
+                        android:tint="#ffffff" />
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/ic_launcher"/>
-                <SeekBar
+                    <SeekBar
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:max="50"
+                        android:progress="15" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_gravity="center"
-                    android:max="50"
-                    android:progress="15"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_weather_windy_variant_black_36dp"
+                        android:tint="#ffffff" />
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/ic_launcher"/>
-                <SeekBar
+                    <SeekBar
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:max="50"
+                        android:progress="15" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_gravity="center"
-                    android:max="50"
-                    android:progress="15"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/ic_launcher"
+                        android:tint="#ffffff" />
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/ic_launcher"/>
-                <SeekBar
+                    <SeekBar
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:max="50"
+                        android:progress="15" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_gravity="center"
-                    android:max="50"
-                    android:progress="15"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/ic_launcher"
+                        android:tint="#ffffff" />
+
+                    <SeekBar
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:max="50"
+                        android:progress="15" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/ic_launcher"
+                        android:tint="#ffffff" />
+
+                    <SeekBar
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:max="50"
+                        android:progress="15" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_chart_areaspline_black_36dp"
+                        android:tint="#ffffff" />
+
+                    <Button
+                        android:id="@+id/appCompatButton"
+                        style="@style/AppTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:text="Animate Barometer"
+                        android:textColor="#8BC34A" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
-
-
-
-
-
-        </LinearLayout>
 
         </ScrollView>
 
