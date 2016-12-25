@@ -5,5 +5,5 @@ package com.github.ahmadnemati.wind.enums;
  */
 
 public enum TrendType {
-    UP, DOWN, NON
+    UP, DOWN, NONE
 }

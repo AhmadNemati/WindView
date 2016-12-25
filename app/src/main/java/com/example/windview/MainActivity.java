@@ -2,38 +2,128 @@ package com.example.windview;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSpinner;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 
 import com.github.ahmadnemati.wind.WindView;
 import com.github.ahmadnemati.wind.enums.TrendType;
 import com.mikepenz.materialize.MaterializeBuilder;
 
-public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
-    private WindView windView;
-    private SeekBar windSpeed;
-    private SeekBar pressureSpeed;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, RadioGroup.OnCheckedChangeListener, View.OnClickListener {
+    @Bind(R.id.windview)
+    WindView windView;
+    @Bind(R.id.wind_speed)
+    SeekBar windSpeed;
+    @Bind(R.id.pressure)
+    SeekBar pressureSpeed;
+    @Bind(R.id.barometr_size)
+    SeekBar barometreSize;
+    @Bind(R.id.wind_unit)
+    AppCompatSpinner windUnit;
+    @Bind(R.id.radio_group)
+    RadioGroup radioGroup;
+    @Bind(R.id.pressure_unit)
+    AppCompatSpinner pressureUnit;
+    @Bind(R.id.animate)
+    Button animateBaroMeter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        materialize();
+        setupWindView();
+        initSpinner();
+        initSeekBars();
+        initRadioButton();
+
+
+    }
+
+    private void initRadioButton() {
+        radioGroup.setOnCheckedChangeListener(this);
+    }
+
+    private void setupWindView() {
+        animateBaroMeter.setOnClickListener(this);
+        windView.setPressure(20);
+        windView.setPressureUnit("in Hg");
+        windView.setWindSpeed(1);
+        windView.setWindSpeedUnit(" km/h");
+        windView.setTrendType(TrendType.UP);
+        windView.start();
+
+
+    }
+
+    private void initSeekBars() {
+        windSpeed.setOnSeekBarChangeListener(this);
+        pressureSpeed.setOnSeekBarChangeListener(this);
+        barometreSize.setOnSeekBarChangeListener(this);
+    }
+
+    private void materialize() {
         new MaterializeBuilder()
                 .withActivity(this)
                 .withFullscreen(true)
                 .withTranslucentStatusBarProgrammatically(false)
                 .withTintedStatusBar(false).build();
-        windView = (WindView) findViewById(R.id.windview);
-        windSpeed = (SeekBar) findViewById(R.id.wind_speed);
-        pressureSpeed = (SeekBar) findViewById(R.id.pressure);
-        windView.setPressure(20);
-        windView.setPressureUnit("in Hg");
-        windView.setWindSpeed(1);
-        windView.setWindSpeedUnit("Km/s");
-        windView.setTrendType(TrendType.UP);
-        windView.start();
-        windSpeed.setOnSeekBarChangeListener(this);
-        pressureSpeed.setOnSeekBarChangeListener(this);
+    }
+
+    private void initSpinner() {
+        List<String> windUnits = new ArrayList<>();
+        windUnits.add("km/h");
+        windUnits.add("ft/s");
+        windUnits.add("m/s");
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, windUnits);
+        windUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                windView.setWindSpeedUnit("" + adapterView.getAdapter().getItem(i).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        windUnit.setAdapter(arrayAdapter);
+
+        List<String> pressureUnits = new ArrayList<>();
+        pressureUnits.add("Hg");
+        pressureUnits.add("Pa");
+        pressureUnits.add("hPa");
+        ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, pressureUnits);
+        pressureUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                windView.setPressureUnit("in " + adapterView.getAdapter().getItem(i).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        pressureUnit.setAdapter(arrayAdapter2);
 
 
     }
@@ -47,6 +137,8 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
             case R.id.pressure:
                 windView.setPressure(i);
                 break;
+            case R.id.barometr_size:
+                windView.setBarometerStrokeWidth(i);
         }
     }
 
@@ -58,5 +150,37 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        switch (radioGroup.getCheckedRadioButtonId()) {
+            case R.id.rv_up:
+                windView.setTrendType(TrendType.UP);
+                windView.start();
+                break;
+            case R.id.rv_down:
+                windView.setTrendType(TrendType.DOWN);
+                windView.start();
+                break;
+            case R.id.rv_none:
+                windView.setTrendType(TrendType.NONE);
+                windView.start();
+                break;
+        }
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        Log.e("Click", "Clicked");
+        windView.animateBaroMeter();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        windView.stop();
     }
 }

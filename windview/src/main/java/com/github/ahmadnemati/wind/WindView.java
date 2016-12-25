@@ -412,6 +412,8 @@ public class WindView extends View {
 
     public void setTrendType(TrendType trendType) {
         this.trendType = trendType;
+        setupPressureLine(false);
+
     }
 
     public Typeface getTypeface() {
