@@ -47,7 +47,7 @@
         android:layout_margin="8dp"
         android:layout_marginBottom="50dp"
         android:layout_marginTop="25dp"
-        app:cardBackgroundColor="#411b33bc"
+        app:cardBackgroundColor="#11607d8b"
         app:cardCornerRadius="4dp"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true">
@@ -156,7 +156,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:text="Animate Barometer"
-                        android:textColor="#336600" />
+                        android:textColor="#000000" />
 
                 </LinearLayout>
 
@@ -183,39 +183,37 @@
                         android:layout_marginRight="8dp"
                         android:orientation="horizontal">
 
-                        <RadioButton
+                        <com.example.windview.CustomRadioButton
                             android:id="@+id/rv_up"
                             style="@style/Widget.AppCompat.CompoundButton.RadioButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             android:layout_weight="1"
                             android:checked="true"
-                            android:gravity="center"
+                            android:gravity="center_vertical"
                             android:text="UP"
-                            android:textColor="#C0C0C0" />
+                            android:textColor="#424242" />
 
-                        <RadioButton
+                        <com.example.windview.CustomRadioButton
                             android:id="@+id/rv_down"
                             style="@style/Widget.AppCompat.CompoundButton.RadioButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:gravity="center"
+                            android:gravity="center_vertical"
                             android:text="DOWN"
-                            android:textColor="#C0C0C0" />
+                            android:textColor="#424242" />
 
-                        <RadioButton
+                        <com.example.windview.CustomRadioButton
                             android:id="@+id/rv_none"
                             style="@style/Base.Widget.AppCompat.CompoundButton.RadioButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:gravity="center"
+                            android:gravity="center_vertical"
                             android:text="NONE"
-                            android:textColor="#C0C0C0" />
+                            android:textColor="#424242" />
 
                     </RadioGroup>
 

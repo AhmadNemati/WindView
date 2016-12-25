@@ -7,4 +7,4 @@
     android:ellipsize="marquee"
     android:maxLines="1"
     android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
-    android:textColor="#C0C0C0" />
+    android:textColor="#000000" />
