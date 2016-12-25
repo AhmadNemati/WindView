@@ -185,7 +185,7 @@
 
                         <RadioButton
                             android:id="@+id/rv_up"
-                            style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                            style="@style/Widget.AppCompat.CompoundButton.RadioButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -197,7 +197,7 @@
 
                         <RadioButton
                             android:id="@+id/rv_down"
-                            style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                            style="@style/Widget.AppCompat.CompoundButton.RadioButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -208,7 +208,7 @@
 
                         <RadioButton
                             android:id="@+id/rv_none"
-                            style="@style/Widget.AppCompat.CompoundButton.CheckBox"
+                            style="@style/Base.Widget.AppCompat.CompoundButton.RadioButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
