@@ -43,7 +43,7 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:layout_marginBottom="50dp"
         android:layout_marginTop="25dp"
@@ -54,7 +54,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:fillViewport="true">
 
             <LinearLayout
@@ -67,7 +67,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -91,7 +90,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -116,7 +114,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -132,7 +129,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:max="10"
+                        android:max="20"
                         android:progress="1" />
 
                 </LinearLayout>
@@ -141,14 +138,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_chart_areaspline_black_36dp"
+                        android:src="@drawable/ic_animation_black_36dp"
                         android:tint="#ffffff" />
 
                     <Button
@@ -160,7 +156,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:text="Animate Barometer"
-                        android:textColor="#1B5E20" />
+                        android:textColor="#336600" />
 
                 </LinearLayout>
 
@@ -168,14 +164,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_weight="1"
+
                     android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center"
-                        android:src="@mipmap/ic_launcher"
+                        android:src="@drawable/ic_trending_down_black_36dp"
                         android:tint="#ffffff" />
 
                     <RadioGroup
@@ -197,7 +193,7 @@
                             android:checked="true"
                             android:gravity="center"
                             android:text="UP"
-                            android:textColor="#000000" />
+                            android:textColor="#C0C0C0" />
 
                         <RadioButton
                             android:id="@+id/rv_down"
@@ -208,7 +204,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="DOWN"
-                            android:textColor="#000000" />
+                            android:textColor="#C0C0C0" />
 
                         <RadioButton
                             android:id="@+id/rv_none"
@@ -219,7 +215,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="NONE"
-                            android:textColor="#000000" />
+                            android:textColor="#C0C0C0" />
 
                     </RadioGroup>
 
@@ -228,7 +224,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -236,7 +231,7 @@
 
                         android:layout_height="25dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_weather_windy_variant_black_36dp"
+                        android:src="@drawable/ic_arrow_compress_black_36dp"
                         android:tint="#ffffff" />
 
                     <SeekBar
@@ -253,14 +248,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_chart_areaspline_black_36dp"
+                        android:src="@drawable/ic_arrow_compress_all_black_36dp"
                         android:tint="#ffffff" />
 
                     <android.support.v7.widget.AppCompatSpinner
@@ -271,6 +265,30 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="25dp"
+
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_dots_horizontal_black_36dp"
+                        android:tint="#ffffff" />
+
+                    <SeekBar
+                        android:id="@+id/linebar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:max="15"
+                        android:progress="1" />
 
                 </LinearLayout>
 

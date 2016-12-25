@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     AppCompatSpinner pressureUnit;
     @Bind(R.id.animate)
     Button animateBaroMeter;
+    @Bind(R.id.linebar)
+    SeekBar line;
 
 
     @Override
@@ -74,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         windSpeed.setOnSeekBarChangeListener(this);
         pressureSpeed.setOnSeekBarChangeListener(this);
         barometreSize.setOnSeekBarChangeListener(this);
+        line.setOnSeekBarChangeListener(this);
     }
 
     private void materialize() {
@@ -90,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         windUnits.add("ft/s");
         windUnits.add("m/s");
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, windUnits);
+                R.layout.dropdown_item, windUnits);
         windUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -110,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         pressureUnits.add("Pa");
         pressureUnits.add("hPa");
         ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, pressureUnits);
+                R.layout.dropdown_item, pressureUnits);
         pressureUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -139,6 +142,10 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 break;
             case R.id.barometr_size:
                 windView.setBarometerStrokeWidth(i);
+                break;
+            case R.id.linebar:
+                windView.setLineStrokeWidth(i);
+                break;
         }
     }
 
@@ -182,5 +189,11 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     protected void onPause() {
         super.onPause();
         windView.stop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        windView.start();
     }
 }
