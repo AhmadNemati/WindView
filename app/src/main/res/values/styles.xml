@@ -5,22 +5,19 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">#C0C0C0</item>
-        <item name="colorButtonNormal">#C0C0C0</item>
+        <item name="colorAccent">#ffffff</item>
+        <item name="colorButtonNormal">#ffffff</item>
         <item name="colorControlHighlight">#9E9E9E</item>
     </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-
-
-
-
-
 
 
 
