@@ -3,7 +3,7 @@
 ![compileSdkVersion 25](https://img.shields.io/badge/compileSdkVersion-25-yellow.svg?style=true)
 [![Release](https://img.shields.io/github/release/jitpack/android-example.svg?label=Jitpack)](https://jitpack.io/#jitpack/android-example)
 # WindView
-WindView is an Android Library to show Werther's Wind & pressure Status
+WindView is an Android Library to show Weather's Wind & pressure Status
 
 # Screenshot
 ![alt tag](https://raw.githubusercontent.com/AhmadNemati/WindView/master/art/screen.gif)
