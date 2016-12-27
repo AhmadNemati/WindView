@@ -14,6 +14,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
+    group = 'com.github.AhmadNemati'
     buildTypes {
         release {
             minifyEnabled false
@@ -31,4 +32,4 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-group = 'com.github.AhmadNemati'
+

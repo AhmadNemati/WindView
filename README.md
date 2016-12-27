@@ -2,15 +2,19 @@
 ![minSdkVersion 14](https://img.shields.io/badge/minSdkVersion-14-red.svg?style=true)
 ![compileSdkVersion 25](https://img.shields.io/badge/compileSdkVersion-25-yellow.svg?style=true)
 # WindView
-WindView is an Android Library that is exactly the same as "Wind & Pressure" of Yahoo Weather!
+WindView is an Android Library that is Exactly the Same as "Wind & Pressure" of Yahoo Weather!
 
 # Screenshot
 ![alt tag](https://raw.githubusercontent.com/AhmadNemati/WindView/master/art/screen.gif)
 
 # Demo
- [**demo.apk**](https://play.google.com/store/apps/details?id=com.xxmassdeveloper.mpchartexample)
+
+ - [**demo.apk**](https://raw.githubusercontent.com/AhmadNemati/WindView/master/app/demo.apk)
+
+
+
 # Setup
-# Step 1 :Add it as a dependency in your app's build.gradle file
+# Step 1: Add it as a Dependency in Your App's build.gradle File
 
 
 
@@ -21,7 +25,7 @@ allprojects {
 	}
 }
 ```
-  -  Add this to your app `build.gradle`:
+  -  add this to your app `build.gradle`:
 
 ```gradle
 dependencies {
@@ -29,8 +33,7 @@ dependencies {
 }
 ```
 
-
-# Step 2 :Add it to your layout
+# Step 2: Add it to your Layout
 ```xml
   <com.github.ahmadnemati.wind.WindView
             android:id="@+id/windview"
@@ -48,7 +51,8 @@ dependencies {
             app:windTextX="10dp"
             app:windTextY="29dp" />
 ```
-# Step 3 :Initialize WindView start it!
+
+# Step 3: Initialize WindView and Start it
 ```java
             WindView windView= (WindView) findViewById(R.id.windview);
             windView.setPressure(20);
