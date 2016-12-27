@@ -1,6 +1,7 @@
 [![License Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=true)](http://www.apache.org/licenses/LICENSE-2.0)
 ![minSdkVersion 14](https://img.shields.io/badge/minSdkVersion-14-red.svg?style=true)
 ![compileSdkVersion 25](https://img.shields.io/badge/compileSdkVersion-25-yellow.svg?style=true)
+[![Release](https://img.shields.io/github/release/jitpack/android-example.svg?label=Jitpack)](https://jitpack.io/#jitpack/android-example)
 # WindView
 WindView is an Android Library that is Exactly the Same as "Wind & Pressure" of Yahoo Weather!
 
@@ -14,7 +15,7 @@ WindView is an Android Library that is Exactly the Same as "Wind & Pressure" of 
 
 
 # Setup
-# Step 1: Add it as a Dependency in Your App's build.gradle File
+# Step 1: Add it as a Dependency in Your App's `build.gradle` File
 
 
 
