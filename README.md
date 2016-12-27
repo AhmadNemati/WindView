@@ -15,7 +15,7 @@ WindView is an Android Library that is Exactly the Same as "Wind & Pressure" of 
 
 
 # Setup
-# Step 1: Add it as a Dependency in Your App's `build.gradle` File
+# Step 1: Add it as a Dependency in Your Root's `build.gradle` File
 
 
 
