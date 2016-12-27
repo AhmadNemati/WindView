@@ -3,7 +3,7 @@
 ![compileSdkVersion 25](https://img.shields.io/badge/compileSdkVersion-25-yellow.svg?style=true)
 [![Release](https://img.shields.io/github/release/jitpack/android-example.svg?label=Jitpack)](https://jitpack.io/#jitpack/android-example)
 # WindView
-WindView is an Android Library that is Exactly the Same as "Wind & Pressure" of Yahoo Weather!
+WindView is an Android Library to show Werther's Wind & pressure Status
 
 # Screenshot
 ![alt tag](https://raw.githubusercontent.com/AhmadNemati/WindView/master/art/screen.gif)
@@ -15,7 +15,7 @@ WindView is an Android Library that is Exactly the Same as "Wind & Pressure" of 
 
 
 # Setup
-# Step 1: Add it as a Dependency in Your App's `build.gradle` File
+# Step 1: Add it as a Dependency in Your Root's `build.gradle` File
 
 
 
@@ -63,6 +63,9 @@ dependencies {
             windView.setTrendType(TrendType.UP);
             windView.start();
 ```
+
+# Note
+Graphical implementations are based on Yahoo Weather Service
 #Developed By
 
 * Ahmad Nemati
