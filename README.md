@@ -2,6 +2,7 @@
 ![minSdkVersion 14](https://img.shields.io/badge/minSdkVersion-14-red.svg?style=true)
 ![compileSdkVersion 25](https://img.shields.io/badge/compileSdkVersion-25-yellow.svg?style=true)
 [![Release](https://img.shields.io/github/release/jitpack/android-example.svg?label=Jitpack)](https://jitpack.io/#jitpack/android-example)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-WindView-brightgreen.svg?style=flat)]()
 # WindView
 WindView is an Android Library to show Weather's Wind & pressure Status
 
