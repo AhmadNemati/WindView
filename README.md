@@ -67,13 +67,13 @@ dependencies {
 
 # Note
 Graphical implementations are based on Yahoo Weather Service
-#Developed By
+# Developed By
 
 * Ahmad Nemati
  * [ahmadnemati.com](http://ahmadnemati.com) - <nematiprog@gmail.com>
 
 
-#License
+# License
 
     Copyright 2016 Ahmad Nemati
 
