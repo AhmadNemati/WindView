@@ -11,7 +11,7 @@ import android.widget.RadioButton;
  * Created by Ahmad Nemati on 12/25/2016.
  */
 
-public class CustomRadioButton extends RadioButton {
+public class CustomRadioButton extends android.support.v7.widget.AppCompatRadioButton {
     public CustomRadioButton(Context context) {
         super(context);
     }
@@ -22,11 +22,6 @@ public class CustomRadioButton extends RadioButton {
 
     public CustomRadioButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public CustomRadioButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @Override
