@@ -18,27 +18,27 @@ import com.mikepenz.materialize.MaterializeBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, RadioGroup.OnCheckedChangeListener, View.OnClickListener {
-    @Bind(R.id.windview)
+    @BindView(R.id.windview)
     WindView windView;
-    @Bind(R.id.wind_speed)
+    @BindView(R.id.wind_speed)
     SeekBar windSpeed;
-    @Bind(R.id.pressure)
+    @BindView(R.id.pressure)
     SeekBar pressureSpeed;
-    @Bind(R.id.barometr_size)
+    @BindView(R.id.barometr_size)
     SeekBar barometreSize;
-    @Bind(R.id.wind_unit)
+    @BindView(R.id.wind_unit)
     AppCompatSpinner windUnit;
-    @Bind(R.id.radio_group)
+    @BindView(R.id.radio_group)
     RadioGroup radioGroup;
-    @Bind(R.id.pressure_unit)
+    @BindView(R.id.pressure_unit)
     AppCompatSpinner pressureUnit;
-    @Bind(R.id.animate)
+    @BindView(R.id.animate)
     Button animateBaroMeter;
-    @Bind(R.id.linebar)
+    @BindView(R.id.linebar)
     SeekBar line;
 
 
